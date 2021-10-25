@@ -449,24 +449,12 @@ export function api(method: string, args: object, retries = 4) {
 				if (!res.headers["content-type"])
 					return reject(new Error("missing content-type in headers"))
 
-				const [ mimeType, ...args ] = res.headers["content-type"].toLowerCase().split("; ")
+				const mimeType = res.headers["content-type"].toLowerCase().match(/(.+);/)![1]
 
 				if (mimeType != "application/json")
 					return reject(new Error(`server response mime type was '${mimeType}'`))
 
-				let charset
-
-				for (const arg of args) {
-					const [ key, value ] = arg.split("=")
-
-					if (key == "charset")
-						charset = value
-				}
-
-				if (!charset)
-					charset = "utf-8"
-
-				const response = JSON.parse(Buffer.concat(buffers).toString(charset as any)) as APIResponse | { ok: false, msg: string }
+				const response = JSON.parse(Buffer.concat(buffers).toString()) as APIResponse | { ok: false, msg: string }
 
 				if (response.ok)
 					resolve(response)
