@@ -1,4 +1,5 @@
 import { request } from "https"
+import { wait } from "./lib"
 
 export type JSONValue = string | number | boolean | JSONValue[] | { [key: string]: JSONValue } | null
 export type APIResponse = Record<string, JSONValue> & { ok: true }
@@ -25,7 +26,7 @@ export function api(method: "create_chat", args: {
 	username: string
 	tell: string
 	msg: string
-}, retries?: number): Promise<{
+}, retries?: number, retryWaitTimeMilliseconds?: number): Promise<{
 	ok: true
 }>
 export function api(method: "create_chat", args: {
@@ -33,14 +34,14 @@ export function api(method: "create_chat", args: {
 	username: string
 	channel: string
 	msg: string
-}, retries?: number): Promise<{
+}, retries?: number, retryWaitTimeMilliseconds?: number): Promise<{
 	ok: true
 }>
 export function api(method: "chats", args: {
 	chat_token: string
 	usernames: string[]
 	before: number
-}, retries?: number): Promise<{
+}, retries?: number, retryWaitTimeMilliseconds?: number): Promise<{
 	ok: true
 	chats: Record<string, (RawTellMessage | RawChannelMessage | RawJoinMessage | RawLeaveMessage)[]>
 }>
@@ -48,23 +49,23 @@ export function api(method: "chats", args: {
 	chat_token: string
 	usernames: string[]
 	after: number
-}, retries?: number): Promise<{
+}, retries?: number, retryWaitTimeMilliseconds?: number): Promise<{
 	ok: true
 	chats: Record<string, (RawTellMessage | RawChannelMessage | RawJoinMessage | RawLeaveMessage)[]>
 }>
 export function api(method: "account_data", args: {
 	chat_token: string
-}, retries?: number): Promise<{
+}, retries?: number, retryWaitTimeMilliseconds?: number): Promise<{
 	ok: true
 	users: Record<string, Record<string, string[]>>
 }>
 export function api(method: "get_token", args: {
 	pass: string
-}, retries?: number): Promise<{
+}, retries?: number, retryWaitTimeMilliseconds?: number): Promise<{
 	ok: true
 	chat_token: string
 }>
-export function api(method: string, args: object, retries = 4) {
+export function api(method: string, args: object, retries = 4, retryWaitTimeMilliseconds = 1000) {
 	const buffers: Buffer[] = []
 
 	return new Promise<APIResponse>((resolve, reject) => {
@@ -101,12 +102,13 @@ export function api(method: string, args: object, retries = 4) {
 
 			})
 		).end(JSON.stringify(args))
-	}).catch(reason => {
+	}).catch(async reason => {
 		if (!retries)
 			throw reason
 
 		console.error(reason)
-		return api(method as any, args as any, retries - 1)
+		await wait(retryWaitTimeMilliseconds)
+		return api(method as any, args as any, retries - 1, retryWaitTimeMilliseconds)
 	})
 }
 
