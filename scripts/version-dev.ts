@@ -1,6 +1,9 @@
 import { exec } from "child_process"
-import { readFile } from "fs/promises"
+import { promises as fsPromises } from "fs"
 import { inc } from "semver"
+
+
+const { readFile } = fsPromises
 
 Promise.all([
 	readFile("package.json", { encoding: "utf-8" })
