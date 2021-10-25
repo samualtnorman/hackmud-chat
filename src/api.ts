@@ -15,6 +15,8 @@ export type RawTellMessage = RawMessage & { to_user: string }
 export type RawJoinMessage = RawChannelMessage & { is_join: true }
 export type RawLeaveMessage = RawChannelMessage & { is_leave: true }
 
+export let serverDate: Date
+
 /**
  * Make a raw API call
  */
@@ -74,6 +76,8 @@ export function api(method: string, args: object, retries = 4) {
 		}, res => res
 			.on("data", (buffer: Buffer) => buffers.push(buffer))
 			.on("end", () => {
+				serverDate = new Date(res.headers.date!)
+
 				if (res.statusCode == 401)
 					return reject(new Error("expired or invalid token"))
 

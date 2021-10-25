@@ -1,3 +1,4 @@
+import { serverDate } from "./api"
 import getChannels from "./getChannels"
 import { ChannelMessage, getMessages, TellMessage } from "./getMessages"
 import getToken from "./getToken"
@@ -165,9 +166,10 @@ export class Client {
 
 				for (const messageHandler of this.messageHandlers)
 					messageHandler(messages)
-			}
+			} else
+				this.time = serverDate.getTime() / 1000
 		} else
-			this.time = Date.now() / 1000
+			this.time = serverDate.getTime() / 1000
 
 		this.timeout?.refresh()
 	}
