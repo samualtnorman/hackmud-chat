@@ -106,3 +106,4 @@ dist
 *.js
 *.d.ts
 test.ts
+!rollup.config.js
