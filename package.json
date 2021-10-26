@@ -10,7 +10,8 @@
 	],
 	"scripts": {
 		"build": "rollup -c",
-		"dev": "rollup -cw"
+		"dev": "rollup -cw",
+		"prepublishOnly": "npm run build"
 	},
 	"repository": {
 		"type": "git",
