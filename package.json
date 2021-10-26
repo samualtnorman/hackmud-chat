@@ -2,11 +2,10 @@
 	"name": "@samual/hackmud-chat-api",
 	"version": "0.3.0",
 	"description": "this is just another hackmud chat api for node, this time written in typescript",
-	"main": "index.js",
 	"files": [
 		"*.d.ts",
 		"*.js",
-		"!rollup.config.js"
+		"!*.config.js"
 	],
 	"scripts": {
 		"build": "rollup -c",
@@ -45,7 +44,14 @@
 		"typescript": "4.x"
 	},
 	"engines": {
-		"node": "^12.17 || ^13.1 || >=14"
+		"node": "^12.17 || >=14"
 	},
-	"type": "module"
+	"type": "module",
+	"optionalDependencies": {
+		"deasync": "^0.1.23"
+	},
+	"exports": {
+		"require": "./index.cjs",
+		"import": "./index.js"
+	}
 }
