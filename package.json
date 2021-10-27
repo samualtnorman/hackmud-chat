@@ -5,7 +5,8 @@
 	"files": [
 		"*.d.ts",
 		"*.js",
-		"!*.config.js"
+		"!*.config.js",
+		"index.cjs"
 	],
 	"scripts": {
 		"build": "rollup -c",
