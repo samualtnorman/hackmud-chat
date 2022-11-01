@@ -1,27 +1,34 @@
-# hackmud-chat-api
-![Build Test](https://github.com/samualtnorman/hackmud-chat-api/workflows/Build%20Test/badge.svg)
+# Hackmud Chat
 
 Typed hackmud chat API wrapper for node and browsers with built in rate limiting.
+Also a command `hackmud-chat` for turning a pass into a token and viewing chat.
 
-example:
+## Turning Your Chat Pass Into a Chat Token
+
+1. Make sure you have the command installed `npm install -g @samual/hackmud-chat`
+1. Run the command `hackmud-chat get-token <chat pass>`
+
+## Viewing hackmud Chat in Your Terminal
+1. Run `hackmud-chat`
+1. Type in your chat token you got from the above process
+
+## Chat Bot Example
 ```js
-const { Client, MessageKind } = require("@samual/hackmud-chat-api")
+const { Client, MessageKind, getChannelData } = require("@samual/hackmud-chat")
 
 const MY_USER = "mr_bot" // this should be one of your users
-const MY_TOKEN = "91w6zc1teswMyIG2QJag" // this can also be your chat pass
+const MY_TOKEN = "91w6zc1teswMyIG2QJag"
 
-const client = new Client(MY_TOKEN, [ ...(await getChannelData(MY_TOKEN)).users.keys() ])
+(async () => {
+	const client = new Client(MY_TOKEN, [ ...(await getChannelData(MY_TOKEN)).users.keys() ])
 
-client.onStart(token => {
-    console.log("my token is", token)
-})
+	client.onMessages(messages => {
+		for (const message of messages) {
+			if (message.kind == MessageKind.Tell && message.content == "ping")
+				client.tellMessage(MY_USER, message.user, "pong!")
+		}
+	})
 
-client.onMessage(messages => {
-    for (const message of messages) {
-        if (message.kind == MessageKind.Tell && message.content == "ping")
-            client.tellMessage(MY_USER, message.user, "pong!")
-    }
-})
-
-client.sendMessage(MY_USER, "0000", "hello, I am a bot")
+	client.sendMessage(MY_USER, "0000", "hello, I am a bot")
+})()
 ```
