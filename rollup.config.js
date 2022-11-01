@@ -1,6 +1,7 @@
 import babel from "@rollup/plugin-babel"
 import nodeResolve from "@rollup/plugin-node-resolve"
 import { readdir as readDirectory } from "fs/promises"
+import preserveShebang from "rollup-plugin-preserve-shebang"
 import { terser } from "rollup-plugin-terser"
 import packageConfig from "./package.json"
 
@@ -29,7 +30,8 @@ export default async () => ({
 	plugins: [
 		babel({ babelHelpers: `bundled`, extensions: [ `.ts` ] }),
 		nodeResolve({ extensions: [ `.ts` ] }),
-		terser({ keep_classnames: true, keep_fnames: true })
+		terser({ keep_classnames: true, keep_fnames: true }),
+		preserveShebang()
 	],
 	external: external.map(name => new RegExp(`^${name}(?:/|$)`))
 	// preserveEntrySignatures: "allow-extension"
