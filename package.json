@@ -1,58 +1,78 @@
 {
-	"name": "@samual/hackmud-chat-api",
-	"version": "0.3.2",
-	"description": "this is just another hackmud chat api for node, this time written in typescript",
-	"files": [
-		"*.d.ts",
-		"*.js",
-		"!*.config.js",
-		"index.cjs"
+	"name": "@samual/hackmud-chat",
+	"version": "0.0.0",
+	"description": "typed hackmud chat API wrapper for node and browsers with built in rate limiting",
+	"keywords": [
+		"hackmud",
+		"chat",
+		"api",
+		"browser",
+		"command",
+		"rate limited",
+		"wrapper"
 	],
-	"scripts": {
-		"build": "rollup -c",
-		"dev": "rollup -cw",
-		"prepublishOnly": "npm run build"
+	"homepage": "https://github.com/samualtnorman/hackmud-chat-api#readme",
+	"bugs": {
+		"url": "https://github.com/samualtnorman/hackmud-chat-api/issues"
+	},
+	"license": "MIT",
+	"author": "Samual Norman",
+	"files": [
+		"*"
+	],
+	"main": "index.js",
+	"exports": {
+		".": {
+			"import": "./index.js",
+			"require": "./index.cjs"
+		},
+		"./*": "./*.js",
+		"./*.js": "./*.js"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/samualtnorman/hackmud-chat-api.git"
 	},
-	"keywords": [
-		"hackmud",
-		"chat",
-		"api",
-		"node",
-		"typescript",
-		"javascript",
-		"ts",
-		"js"
-	],
-	"author": "Samual Norman",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/samualtnorman/hackmud-chat-api/issues"
+	"scripts": {
+		"build": "rollup --config",
+		"dev": "rollup --config --watch",
+		"lint": "eslint .; tsc",
+		"package": "rm -rf dist && rollup --config && npm run gen-types && node scripts/build-package-json && cp LICENSE README.md index.cjs dist",
+		"gen-types": "tsc --project src --declaration true --emitDeclarationOnly true --noEmit false --outDir dist"
 	},
-	"homepage": "https://github.com/samualtnorman/hackmud-chat-api#readme",
-	"devDependencies": {
-		"@rollup/plugin-node-resolve": "13.x",
-		"@rollup/plugin-typescript": "8.x",
-		"@types/node": "12.x",
-		"@types/semver": "7.x",
-		"rollup": "2.x",
-		"rollup-plugin-terser": "7.x",
-		"semver": "7.x",
-		"tslib": "2.x",
-		"typescript": "4.x"
-	},
+	"private": true,
 	"engines": {
-		"node": "^12.17 || >=14"
+		"node": ">=14"
 	},
-	"type": "module",
+	"dependencies": {
+		"@samual/lib": "0.4.0",
+		"ansi-colors": "^4.1.3",
+		"chalk": "^5.1.2",
+		"inquirer": "^9.1.4"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.19.6",
+		"@babel/preset-env": "^7.19.4",
+		"@babel/preset-typescript": "^7.18.6",
+		"@rollup/plugin-babel": "^6.0.2",
+		"@rollup/plugin-node-resolve": "~13.3.0",
+		"@types/inquirer": "^9.0.2",
+		"@types/node": "^14.18.33",
+		"@types/semver": "~7.3.13",
+		"@typescript-eslint/eslint-plugin": "^5.41.0",
+		"@typescript-eslint/parser": "^5.41.0",
+		"eslint": "^8.26.0",
+		"eslint-plugin-array-func": "^3.1.7",
+		"eslint-plugin-eslint-comments": "^3.2.0",
+		"eslint-plugin-regexp": "^1.9.0",
+		"eslint-plugin-unicorn": "^44.0.2",
+		"rollup": "~2.79.1",
+		"rollup-plugin-terser": "~7.0.2",
+		"semver": "~7.3.8",
+		"typescript": "~4.8.4"
+	},
 	"optionalDependencies": {
-		"deasync": "^0.1.23"
+		"deasync": "^0.1.28"
 	},
-	"exports": {
-		"require": "./index.cjs",
-		"import": "./index.js"
-	}
+	"type": "module"
 }
