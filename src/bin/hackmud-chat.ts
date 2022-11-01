@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/no-process-exit */
+#!/bin/node
 /* eslint-disable prefer-named-capture-group */
 import writeFilePersistent from "@samual/lib/writeFilePersistent"
 import chalk from "chalk"
@@ -20,10 +20,10 @@ if (process.argv.length > 2) {
 
 		console.log(await getToken(process.argv[3]))
 		process.exit(0)
-	} else {
-		console.error(`Unknown command "${process.argv[2]}"`)
-		process.exit(1)
 	}
+
+	console.error(`Unknown command "${process.argv[2]}"`)
+	process.exit(1)
 }
 
 const colourCodesToChalks = {
