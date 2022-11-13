@@ -1,5 +1,5 @@
 import { serverDate } from "./api"
-import getChannelData from "./getChannelData"
+import getChannelData, { ChannelData } from "./getChannelData"
 import { getMessages, Message } from "./getMessages"
 import sendMessage from "./sendMessage"
 import tellMessage from "./tellMessage"
@@ -23,7 +23,7 @@ export class Client {
 	 *     // ...
 	 * })
 	 */
-	onMessages(messagesHandler: MessagesHandler) {
+	onMessages(messagesHandler: MessagesHandler): this {
 		this.messagesHandlers.push(messagesHandler)
 
 		if (this.messagesHandlers.length == 1) {
@@ -58,27 +58,27 @@ export class Client {
 	}
 
 	/** Get channels your users are in and other users in those channels */
-	getChannelData() {
+	getChannelData(): Promise<ChannelData> {
 		return getChannelData(this.token)
 	}
 
 	/** Get messages recieved in the 30 minutes after a date */
-	getMessagesAfter(date: Date, users = this.users) {
+	getMessagesAfter(date: Date, users = this.users): Promise<Message[]> {
 		return getMessages(this.token, users, date)
 	}
 
 	/** Get messages recieved in the 30 minutes before a date */
-	getMessagesBefore(date: Date, users = this.users) {
+	getMessagesBefore(date: Date, users = this.users): Promise<Message[]> {
 		return getMessages(this.token, users, date, `before`)
 	}
 
 	/** Send a message to a channel */
-	sendMessage(from: string, channel: string, message: string) {
+	sendMessage(from: string, channel: string, message: string): Promise<{ ok: true }> {
 		return sendMessage(this.token, from, channel, message)
 	}
 
 	/** Tell a message to a user */
-	tellMessage(from: string, to: string, message: string) {
+	tellMessage(from: string, to: string, message: string): Promise<{ ok: true }> {
 		return tellMessage(this.token, from, to, message)
 	}
 }

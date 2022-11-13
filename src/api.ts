@@ -38,7 +38,7 @@ export function api(method: "account_data", args: { chat_token: string }):
 
 export function api(method: "get_token", args: { pass: string }): Promise<{ ok: true, chat_token: string }>
 
-export function api(method: string, args: Record<string, unknown>) {
+export function api(method: string, args: Record<string, unknown>): Promise<{ ok: true }> {
 	return lock(async () => {
 		const url = `https://www.hackmud.com/mobile/${method}.json`
 

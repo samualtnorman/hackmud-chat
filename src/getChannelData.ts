@@ -1,8 +1,10 @@
 import assert from "@samual/lib/assert"
 import api from "./api"
 
+export type ChannelData = { users: Map<string, string[]>, channels: Map<string, string[]> }
+
 /** Get channels your users are in and other users in those channels */
-export async function getChannelData(chatToken: string) {
+export async function getChannelData(chatToken: string): Promise<ChannelData> {
 	assert(chatToken.length == 20, `\`chatToken\` argument must be 20 characters`)
 
 	const { users: usersData } = await api(`account_data`, { chat_token: chatToken })

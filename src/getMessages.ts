@@ -7,7 +7,7 @@ import api from "./api"
  * @param users users you want to get recieved messages for
  * @param when defaults to `"after"`
  */
-export async function getMessages(chatToken: string, users: string[], date: Date, when: "before" | "after" = `after`) {
+export async function getMessages(chatToken: string, users: string[], date: Date, when: "before" | "after" = `after`): Promise<Message[]> {
 	assert(chatToken.length == 20, `\`chatToken\` argument must be 20 characters`)
 	assert(users.length, `\`users\` argument must not be empty`)
 
