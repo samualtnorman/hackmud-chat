@@ -1,3 +1,4 @@
+export { isTokenValid } from "./api"
 export { Client } from "./Client"
 export { getChannelData } from "./getChannelData"
 export { getMessages, MessageKind } from "./getMessages"
