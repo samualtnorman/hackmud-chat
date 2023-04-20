@@ -1,14 +1,12 @@
-#!/bin/node
-/* eslint-disable prefer-named-capture-group */
 import writeFilePersistent from "@samual/lib/writeFilePersistent"
 import chalk from "chalk"
 import { readFileSync } from "fs"
 import inquirer from "inquirer"
 import { homedir as getHomeDirectory, platform as getPlatform } from "os"
-import { isTokenValid } from "../api"
 import Client from "../Client"
+import { isTokenValid } from "../api"
 import getChannelData from "../getChannelData"
-import { Message, MessageKind } from "../getMessages"
+import { MessageKind, type Message } from "../getMessages"
 import getToken from "../getToken"
 
 if (process.argv.length > 2) {
@@ -187,7 +185,7 @@ function colourMessageContent(message: string) {
 				}`
 			)
 			.replace(
-				/([a-zA-Z_]\w*|"(?:\\"|[^"])+")( {0,2}: {0,2})("(?:\\"|[^"])+"|\d+|true|false|{|\[)/g,
+				/([a-zA-Z_]\w*|"(?:\\"|[^"])+")( {0,2}: {0,2})("(?:\\"|[^"])+"|\d+|true|false|\{|\[)/g,
 				(_, key, middle, value) => colourCodesToChalks.N(key) + middle + colourCodesToChalks.V(value)
 			)
 			.replace(/`([^\W_])([^`\n]+)`/g, (_, colourCode, inner) => (colourCodesToChalks as any)[colourCode](inner))

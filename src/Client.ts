@@ -1,6 +1,6 @@
 import { serverDate } from "./api"
-import getChannelData, { ChannelData } from "./getChannelData"
-import { getMessages, Message } from "./getMessages"
+import { getChannelData, type ChannelData } from "./getChannelData"
+import { getMessages, type Message } from "./getMessages"
 import sendMessage from "./sendMessage"
 import tellMessage from "./tellMessage"
 

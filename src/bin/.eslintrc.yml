@@ -1,0 +1,4 @@
+extends: [ ../.eslintrc.yml ]
+
+rules:
+  unicorn/no-process-exit: off

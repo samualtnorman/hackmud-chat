@@ -6,6 +6,6 @@
 		"useUnknownInCatchVariables": true,
 		"strictNullChecks": true
 	},
-	"extends": "../tsconfig.json",
+	"extends": "..",
 	"include": [ "**/*" ]
 }

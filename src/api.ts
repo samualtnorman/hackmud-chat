@@ -1,4 +1,3 @@
-/* eslint-disable require-atomic-updates */
 import { assert, ensure } from "@samual/lib/assert"
 import createLock from "@samual/lib/createLock"
 import fetch from "@samual/lib/fetch"
