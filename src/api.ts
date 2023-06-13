@@ -47,7 +47,7 @@ export function api(method: string, args: Record<string, unknown>): Promise<{ ok
 		await wait((method == `account_data` ? 5000 : 2000) - (Date.now() - lastAPICallTime))
 
 		try {
-			const response = await retry(() => fetch(url, fetchOptions))
+			const response = await retry(() => fetch(url, fetchOptions), { attempts: Infinity })
 
 			serverDate = new Date(ensure(response.headers.get(`date`), `Server response headers did not have date`))
 
